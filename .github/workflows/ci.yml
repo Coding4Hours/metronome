@@ -11,8 +11,7 @@ permissions:
 jobs:
   changelog:
     name: Changelog
-    runs-on: ubuntu-slim
-
+    runs-on: ubuntu-latest # Changed from ubuntu-slim (invalid)
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -25,7 +24,7 @@ jobs:
   build:
     name: Build APK
     needs: changelog
-    runs-on: ubuntu-slim
+    runs-on: ubuntu-latest # Changed from ubuntu-slim
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -34,17 +33,6 @@ jobs:
         uses: oven-sh/setup-bun@v1
         with:
           bun-version: latest
-
-      - name: Install Rust toolchain
-        uses: dtolnay/rust-toolchain@stable
-        with:
-          # Adding all targets for a universal APK build
-          targets: aarch64-linux-android, armv7-linux-androideabi, i686-linux-android, x86_64-linux-android
-
-      - name: Rust Cache
-        uses: swatinem/rust-cache@v2
-        with:
-          workspaces: src-tauri -> target
 
       - name: Install Java
         uses: actions/setup-java@v4
@@ -55,14 +43,32 @@ jobs:
       - name: Install Android SDK
         uses: android-actions/setup-android@v3
 
+      - name: Install NDK
+        run: sdkmanager "ndk;26.1.10909125"
+
+      - name: Install Rust toolchain
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: aarch64-linux-android
+
+      - name: Rust Cache
+        uses: swatinem/rust-cache@v2
+        with:
+          workspaces: src-tauri -> target
+
       - name: Install Dependencies
         run: bun install
 
+      - name: Build SvelteKit
+        run: bun run build
+
       - name: Build APK
         run: bun tauri android build --apk --target aarch64
+        env:
+          NDK_HOME: ${{ env.ANDROID_HOME }}/ndk/26.1.10909125
 
       - name: Upload APK Artifact
         uses: actions/upload-artifact@v4
         with:
           name: android-apk
-          path: src-tauri/gen/android/app/build/outputs/apk/universal/release/*.apk
+          path: src-tauri/gen/android/app/build/outputs/apk/**/*.apk
