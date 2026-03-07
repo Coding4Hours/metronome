@@ -1,4 +1,4 @@
-package com.tauri.dev
+package com.coding4hours.metronome
 
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
