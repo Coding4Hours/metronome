@@ -1,3 +1,12 @@
+## [0.1.2](https://github.com/Coding4Hours/metronome/compare/v0.1.1...v0.1.2) (2026-03-07)
+
+
+### Bug Fixes
+
+* svelte ([8ff9013](https://github.com/Coding4Hours/metronome/commit/8ff9013a3e9b71a4ab1b03bfdae83833f29adafa))
+
+
+
 ## [0.1.1](https://github.com/Coding4Hours/metronome/compare/v0.1.0...v0.1.1) (2026-03-07)
 
 
