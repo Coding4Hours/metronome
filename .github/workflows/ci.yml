@@ -8,8 +8,6 @@ on:
 permissions:
   contents: write
 
-env:
-  BUILD_PATH: "."
 
 jobs:
   changelog:
