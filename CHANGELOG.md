@@ -1,3 +1,12 @@
+## [0.1.3](https://github.com/Coding4Hours/metronome/compare/v0.1.2...v0.1.3) (2026-03-07)
+
+
+### Bug Fixes
+
+* tauri again ([265d49f](https://github.com/Coding4Hours/metronome/commit/265d49f8bc29b67d14bab8b5817235c611f749a9))
+
+
+
 ## [0.1.2](https://github.com/Coding4Hours/metronome/compare/v0.1.1...v0.1.2) (2026-03-07)
 
 
