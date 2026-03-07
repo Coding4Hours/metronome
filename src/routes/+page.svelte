@@ -38,10 +38,11 @@
     if (!audioCtx) return;
     const osc = audioCtx.createOscillator();
     const envelope = audioCtx.createGain();
-    osc.frequency.value = 880; 
+    osc.type = 'square'; 
+    osc.frequency.value = 1000; 
     osc.connect(envelope);
     envelope.connect(audioCtx.destination);
-    envelope.gain.setValueAtTime(0.5, time);
+    envelope.gain.setValueAtTime(1, time);
     envelope.gain.exponentialRampToValueAtTime(0.001, time + 0.05);
     osc.start(time);
     osc.stop(time + 0.05);
