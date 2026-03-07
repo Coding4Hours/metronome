@@ -46,14 +46,14 @@ jobs:
         with:
           workspaces: src-tauri -> target
 
-      - name: Install Android SDK
-        uses: android-actions/setup-android@v3
-
       - name: Install Java
         uses: actions/setup-java@v4
         with:
           distribution: 'zulu'
           java-version: '17'
+
+      - name: Install Android SDK
+        uses: android-actions/setup-android@v3
 
       - name: Install Dependencies
         run: bun install
