@@ -1,3 +1,12 @@
+# [0.2.0](https://github.com/Coding4Hours/metronome/compare/v0.1.5...v0.2.0) (2026-03-08)
+
+
+### Features
+
+* edit songs ([4287194](https://github.com/Coding4Hours/metronome/commit/4287194eb7feafb7aca501dbf0608a4d228dd10f))
+
+
+
 ## [0.1.5](https://github.com/Coding4Hours/metronome/compare/v0.1.4...v0.1.5) (2026-03-07)
 
 
@@ -31,16 +40,6 @@
 ### Bug Fixes
 
 * svelte ([8ff9013](https://github.com/Coding4Hours/metronome/commit/8ff9013a3e9b71a4ab1b03bfdae83833f29adafa))
-
-
-
-## [0.1.1](https://github.com/Coding4Hours/metronome/compare/v0.1.0...v0.1.1) (2026-03-07)
-
-
-### Bug Fixes
-
-* tauri ([b01409e](https://github.com/Coding4Hours/metronome/commit/b01409e78bfb3a2e64c49d8092b783e70a881bbf))
-* tauri  ([1c9b41c](https://github.com/Coding4Hours/metronome/commit/1c9b41c5e8789cdc7a0bc76b7f2ea87df7c9e6ea))
 
 
 
