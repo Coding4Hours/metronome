@@ -1,9 +1,10 @@
-# [0.2.0](https://github.com/Coding4Hours/metronome/compare/v0.1.5...v0.2.0) (2026-03-08)
+# [0.3.0](https://github.com/Coding4Hours/metronome/compare/v0.1.5...v0.3.0) (2026-03-08)
 
 
 ### Features
 
 * edit songs ([4287194](https://github.com/Coding4Hours/metronome/commit/4287194eb7feafb7aca501dbf0608a4d228dd10f))
+* worky apk ([0478631](https://github.com/Coding4Hours/metronome/commit/0478631c3af51505174cba6c9f893588495bbce5))
 
 
 
