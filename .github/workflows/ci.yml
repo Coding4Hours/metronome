@@ -62,10 +62,17 @@ jobs:
       - name: Build SvelteKit
         run: bun run build
 
+      - name: Decode Android Keystore
+        run: echo "${{ secrets.ANDROID_KEYSTORE_BASE64 }}" | base64 --decode > src-tauri/release.keystore
+
       - name: Build APK
         run: bun tauri android build --apk --target aarch64
         env:
           NDK_HOME: ${{ env.ANDROID_HOME }}/ndk/26.1.10909125
+          TAURI_ANDROID_KEYSTORE_PATH: release.keystore
+          TAURI_ANDROID_KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
+          TAURI_ANDROID_KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
+          TAURI_ANDROID_KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
 
       - name: Upload APK Artifact
         uses: actions/upload-artifact@v4
