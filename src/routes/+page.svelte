@@ -13,6 +13,7 @@
   import iconChevronRight from "@ktibow/iconset-material-symbols/chevron-right";
   import iconAdd from "@ktibow/iconset-material-symbols/add";
   import iconDelete from "@ktibow/iconset-material-symbols/delete";
+  import iconEdit from "@ktibow/iconset-material-symbols/edit";
   import { fade, fly } from 'svelte/transition';
   import { onMount } from 'svelte';
 
@@ -104,27 +105,39 @@
   });
 
   let isDialogOpen = $state(false);
+  let editingItemId = $state<string | null>(null);
   let newItemName = $state("");
   let newItemTempo = $state(120);
   let newItemBook = $state("");
   let newItemPageNumber = $state<number | null>(null);
 
-  function addItem() {
+  function saveItem() {
     const trimmedName = newItemName.trim();
     if (trimmedName) {
-      items = [...items, { 
-        id: crypto.randomUUID(), 
-        name: trimmedName, 
-        tempo: newItemTempo, 
-        book: newItemBook || "Unknown", 
-        page_number: newItemPageNumber ?? 0
-      }];
+      if (editingItemId) {
+        items = items.map(item => item.id === editingItemId ? {
+          ...item,
+          name: trimmedName,
+          tempo: newItemTempo,
+          book: newItemBook || "Unknown",
+          page_number: newItemPageNumber ?? 0
+        } : item);
+      } else {
+        items = [...items, { 
+          id: crypto.randomUUID(), 
+          name: trimmedName, 
+          tempo: newItemTempo, 
+          book: newItemBook || "Unknown", 
+          page_number: newItemPageNumber ?? 0
+        }];
+      }
       resetDialog();
       isDialogOpen = false;
     }
   }
 
   function resetDialog() {
+    editingItemId = null;
     newItemName = "";
     newItemTempo = bpm;
     newItemBook = "";
@@ -140,12 +153,23 @@
     isDialogOpen = true;
   }
 
+  function editItem(item: Item) {
+    editingItemId = item.id;
+    newItemName = item.name;
+    newItemTempo = item.tempo;
+    newItemBook = item.book;
+    newItemPageNumber = item.page_number;
+    isDialogOpen = true;
+  }
+
   function loadItem(item: Item) {
     bpm = item.tempo;
   }
 
   let isListEmpty = $derived(items.length === 0);
   let isAddDisabled = $derived(!newItemName.trim());
+  let dialogHeadline = $derived(editingItemId ? "Edit Item" : "Add New Item");
+  let dialogButtonLabel = $derived(editingItemId ? "Save" : "Add");
 </script>
 
 {#snippet header()}
@@ -225,9 +249,14 @@
                   onclick={() => loadItem(item)}
                 >
                   {#snippet trailing()}
-                    <Button variant="text" iconType="full" onclick={(e) => { e.stopPropagation(); removeItem(item.id); }}>
-                      <Icon icon={iconDelete} />
-                    </Button>
+                    <div class="item-actions">
+                      <Button variant="text" iconType="full" onclick={(e) => { e.stopPropagation(); editItem(item); }}>
+                        <Icon icon={iconEdit} />
+                      </Button>
+                      <Button variant="text" iconType="full" onclick={(e) => { e.stopPropagation(); removeItem(item.id); }}>
+                        <Icon icon={iconDelete} />
+                      </Button>
+                    </div>
                   {/snippet}
                 </ListItem>
               </div>
@@ -243,16 +272,16 @@
   </div>
 </main>
 
-<Dialog headline="Add New Item" bind:open={isDialogOpen}>
+<Dialog headline={dialogHeadline} bind:open={isDialogOpen}>
   <div class="dialog-content">
     <TextField label="Name" bind:value={newItemName} />
     <TextField label="Tempo (BPM)" type="number" bind:value={newItemTempo} />
     <TextField label="Book" bind:value={newItemBook} />
-    <TextField label="Page Number" type="number" bind:value={newItemPageNumber} enter={addItem} />
+    <TextField label="Page Number" type="number" bind:value={newItemPageNumber} enter={saveItem} />
   </div>
   {#snippet buttons()}
     <Button variant="text" onclick={() => (isDialogOpen = false)}>Cancel</Button>
-    <Button variant="filled" onclick={addItem} disabled={isAddDisabled}>Add</Button>
+    <Button variant="filled" onclick={saveItem} disabled={isAddDisabled}>{dialogButtonLabel}</Button>
   {/snippet}
 </Dialog>
 
@@ -342,6 +371,10 @@
     padding: 0.5rem;
     min-height: 100px;
     width: 20rem;
+  }
+  
+  .item-actions {
+    display: flex;
   }
 
   .empty-state {
