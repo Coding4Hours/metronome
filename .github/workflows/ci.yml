@@ -22,63 +22,65 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           
   build:
-    name: Build APK
-    needs: changelog
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Setup Bun
-        uses: oven-sh/setup-bun@v1
-        with:
-          bun-version: latest
-
-      - name: Install Java
-        uses: actions/setup-java@v4
-        with:
-          distribution: 'zulu'
-          java-version: '17'
-
-      - name: Install Android SDK
-        uses: android-actions/setup-android@v3
-
-      - name: Install NDK
-        run: sdkmanager "ndk;26.1.10909125"
-
-      - name: Install Rust toolchain
-        uses: dtolnay/rust-toolchain@stable
-        with:
-          targets: aarch64-linux-android
-
-      - name: Rust Cache
-        uses: swatinem/rust-cache@v2
-        with:
-          workspaces: src-tauri -> target
-
-      - name: Install Dependencies
-        run: bun install
-
-      - name: Build SvelteKit
-        run: bun run build
-
-      - name: Build Unsigned APK
-        run: bun tauri android build --apk --target aarch64
-        env:
-          NDK_HOME: ${{ env.ANDROID_HOME }}/ndk/26.1.10909125
-
-      - name: Sign APK
-        uses: r0adkll/sign-android-release@v1
-        id: sign_app
-        with:
-          releaseDirectory: src-tauri/gen/android/app/build/outputs/apk/aarch64/release
-          signingKeyBase64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
-          alias: ${{ secrets.ANDROID_KEY_ALIAS }}
-          keyStorePassword: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
-          keyPassword: ${{ secrets.ANDROID_KEY_PASSWORD }}
-
-      - name: Upload Signed APK
-        uses: actions/upload-artifact@v4
-        with:
-          name: android-apk
-          path: ${{ steps.sign_app.outputs.signedReleaseFile }}
+      name: Build APK
+      needs: changelog
+      runs-on: ubuntu-latest
+      steps:
+        - name: Checkout repository
+          uses: actions/checkout@v4
+  
+        - name: Setup Bun
+          uses: oven-sh/setup-bun@v1
+          with:
+            bun-version: latest
+  
+        - name: Install Java
+          uses: actions/setup-java@v4
+          with:
+            distribution: 'zulu'
+            java-version: '17'
+  
+        - name: Install Android SDK
+          uses: android-actions/setup-android@v3
+  
+        - name: Install NDK
+          run: sdkmanager "ndk;26.1.10909125"
+  
+        - name: Install Rust toolchain
+          uses: dtolnay/rust-toolchain@stable
+          with:
+            targets: aarch64-linux-android
+  
+        - name: Rust Cache
+          uses: swatinem/rust-cache@v2
+          with:
+            workspaces: src-tauri -> target
+  
+        - name: Install Dependencies
+          run: bun install
+  
+        - name: Build SvelteKit
+          run: bun run build
+  
+        - name: Build Unsigned APK
+          run: bun tauri android build --apk --target aarch64
+          env:
+            NDK_HOME: ${{ env.ANDROID_HOME }}/ndk/26.1.10909125
+  
+        - name: Sign APK
+          uses: r0adkll/sign-android-release@v1
+          id: sign_app
+          with:
+            # Updated to match the path you found
+            releaseDirectory: src-tauri/gen/android/app/build/outputs/apk/universal/release
+            signingKeyBase64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
+            alias: ${{ secrets.ANDROID_KEY_ALIAS }}
+            keyStorePassword: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
+            keyPassword: ${{ secrets.ANDROID_KEY_PASSWORD }}
+  
+        - name: Upload Signed APK
+          uses: actions/upload-artifact@v4
+          with:
+            name: android-apk
+            # This variable automatically finds the newly signed file
+            path: ${{ steps.sign_app.outputs.signedReleaseFile }}
