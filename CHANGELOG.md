@@ -1,3 +1,12 @@
+## [0.3.1](https://github.com/Coding4Hours/metronome/compare/v0.3.0...v0.3.1) (2026-03-09)
+
+
+### Bug Fixes
+
+* ci ([2a56f80](https://github.com/Coding4Hours/metronome/commit/2a56f8036481e1f3cb647a0b5a49746419deb397))
+
+
+
 # [0.3.0](https://github.com/Coding4Hours/metronome/compare/v0.1.5...v0.3.0) (2026-03-08)
 
 
@@ -32,15 +41,6 @@
 ### Bug Fixes
 
 * tauri again ([265d49f](https://github.com/Coding4Hours/metronome/commit/265d49f8bc29b67d14bab8b5817235c611f749a9))
-
-
-
-## [0.1.2](https://github.com/Coding4Hours/metronome/compare/v0.1.1...v0.1.2) (2026-03-07)
-
-
-### Bug Fixes
-
-* svelte ([8ff9013](https://github.com/Coding4Hours/metronome/commit/8ff9013a3e9b71a4ab1b03bfdae83833f29adafa))
 
 
 
