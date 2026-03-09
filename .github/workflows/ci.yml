@@ -30,7 +30,7 @@ jobs:
           uses: actions/checkout@v4
   
         - name: Setup Bun
-          uses: oven-sh/setup-bun@v1
+          uses: oven-sh/setup-bun@v2
           with:
             bun-version: latest
   
@@ -46,6 +46,7 @@ jobs:
         - name: Install NDK and Build Tools
           run: |
             sdkmanager "ndk;26.1.10909125" "build-tools;34.0.0"
+            # Modern way to update path without set-output style warnings
             echo "${ANDROID_HOME}/build-tools/34.0.0" >> $GITHUB_PATH
   
         - name: Install Rust toolchain
