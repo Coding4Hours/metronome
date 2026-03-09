@@ -44,7 +44,9 @@ jobs:
           uses: android-actions/setup-android@v3
   
         - name: Install NDK and Build Tools
-          run: sdkmanager "ndk;26.1.10909125" "build-tools;34.0.0"
+          run: |
+            sdkmanager "ndk;26.1.10909125" "build-tools;34.0.0"
+            echo "${ANDROID_HOME}/build-tools/34.0.0" >> $GITHUB_PATH
   
         - name: Install Rust toolchain
           uses: dtolnay/rust-toolchain@stable
@@ -74,6 +76,9 @@ jobs:
             keyStorePassword: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
             keyPassword: ${{ secrets.ANDROID_KEY_PASSWORD }}
             buildToolsVersion: "34.0.0"
+          env:
+            ANDROID_HOME: ${{ env.ANDROID_HOME }}
+            ANDROID_SDK_ROOT: ${{ env.ANDROID_HOME }}
   
         - name: Upload Signed APK
           uses: actions/upload-artifact@v4
