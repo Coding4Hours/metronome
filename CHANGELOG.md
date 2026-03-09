@@ -1,3 +1,12 @@
+# [0.4.0](https://github.com/Coding4Hours/metronome/compare/v0.3.1...v0.4.0) (2026-03-09)
+
+
+### Features
+
+* icons ([ab4ea27](https://github.com/Coding4Hours/metronome/commit/ab4ea27964e696423fe0f899628f57b5fb4464bd))
+
+
+
 ## [0.3.1](https://github.com/Coding4Hours/metronome/compare/v0.3.0...v0.3.1) (2026-03-09)
 
 
@@ -32,15 +41,6 @@
 ### Bug Fixes
 
 * tauri again ([e03e0aa](https://github.com/Coding4Hours/metronome/commit/e03e0aa43777f924962c6a41eff58b101e555577))
-
-
-
-## [0.1.3](https://github.com/Coding4Hours/metronome/compare/v0.1.2...v0.1.3) (2026-03-07)
-
-
-### Bug Fixes
-
-* tauri again ([265d49f](https://github.com/Coding4Hours/metronome/commit/265d49f8bc29b67d14bab8b5817235c611f749a9))
 
 
 
